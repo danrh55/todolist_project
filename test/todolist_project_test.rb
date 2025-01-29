@@ -1,6 +1,8 @@
 require 'minitest/autorun'
 require 'minitest/reporters'
 require 'date'
+require 'stamp'
+
 Minitest::Reporters.use!
 
 require_relative '../lib/todolist_project'
@@ -109,6 +111,18 @@ class TodoListTest < Minitest::Test
     ---- Today's Todos ----
     [ ] Buy milk
     [ ] Clean room
+    [ ] Go to gym
+    OUTPUT
+
+    assert_equal(output, @list.to_s)
+  end
+
+  def test_to_s_with_due_date
+    @todo2.due_date = Date.civil(2017, 4, 15)
+    output = <<-OUTPUT.chomp.gsub(/^\s+/, '')
+    ---- Today's Todos ----
+    [ ] Buy milk
+    [ ] Clean room (Due: Saturday April 15)
     [ ] Go to gym
     OUTPUT
 
